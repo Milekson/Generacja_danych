@@ -19,6 +19,7 @@ class generatino_data_to_excel:
 
     def __init__(self):
         self.wczytaj_imiona()
+        self.Menu()
     def wczytaj_imiona(self):
         try:
             df = pd.read_excel(self.sciezka)
@@ -30,10 +31,11 @@ class generatino_data_to_excel:
         except Exception as e:
             print(f"Błąd odczytu pliku:{e}")
             return None
-    def dane_osobowe(self,ile,plec):
+    def dane_osobowe(self,ile,plec,nazwa_pliku):
         """
         Metoda losuje imiona i nazwiska z pliku źródłowego i zapisuje pliki w słowniku.
 
+        :param nazwa_pliku: Nazwa pliku w którym zapiszemy dane
         :param ile: Liczna par do generowania
         :param plec: 'm' - męskie lub 'd' - damksie
         :return: zwrócenie Slownika z listami wylosowanych imion z nazwkisami
@@ -56,7 +58,7 @@ class generatino_data_to_excel:
             'Miasto': wylosowane_miasta
         }
         df = pd.DataFrame(wynik)
-        df.to_excel("Wynik_losowania.xlsx", index = False,sheet_name = "Dane")
+        df.to_excel(nazwa_pliku, index = False,sheet_name = "Dane")
         return self
 
     def zapis_testowy_txt(self):
@@ -71,18 +73,32 @@ class generatino_data_to_excel:
         nazwa_pliku = "Test.txt"
 
         df.to_csv(nazwa_pliku,sep = separator, index=False, encoding='utf-8')
+
+    def Menu(self):
+        """
+        Obsługa programu. Menu wyboru rodzaju danych. Do wyboru są Dane męskie, żeńskie lub mieszane określone znakami
+        "m" dla mężczyzn, "d" dla kobiet, "mix" dla mieszanych. Ilość potrzebych danych jest określona w liczbach całkowitch
+        Nazwa pliku jest wybierana przez użytkownika programu. Po wprowadzaniu danych na koniec jest wykonywana metoda
+        dane osobowe.
+        :return: plik .xlsx
+        """
+        print("Witam w programie do generacji danych osobowych do liku excel.")
+        ile = int(input("Podaj mi liczbę potrzebnych danych: "))
+        while True:
+            if ile is not int:
+                ile = int(input("Liczna musi być całkowita: "))
+                print("Wybierz teraz jakie imiona i nazwiska potrzebujesz")
+                plec = input("Męskie - m, Damskie - d, Mieszane - mix: ")
+                nazwa_pliku = input("Dobrze, podaj mi teraz nazwę pliku pod którą mam zapisać dane: ")
+                nazwa_pliku += ".xlsx"
+                self.dane_osobowe(ile, plec, nazwa_pliku)
+                break
+            else:
+                ile = int(input("Liczna musi być całkowita: "))
 pass
 
 
 
 if __name__ == "__main__":
-    # start = time.perf_counter()
-    # a = generatino_data_to_excel()
-    # stop = time.perf_counter()
-    # print(f"Pomiar czasu wynosi {stop - start}")
-    # zmierz_czas(a.dane_osobowe,100,'m')
-    # #a.zapis_testowy_txt()
+    a = generatino_data_to_excel()
 
-    Test = (element
-            for element in pd.read_excel("Dane_Osobowe.xlsx"))
-    print(Test)
