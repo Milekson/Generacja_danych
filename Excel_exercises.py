@@ -83,18 +83,22 @@ class generatino_data_to_excel:
         :return: plik .xlsx
         """
         print("Witam w programie do generacji danych osobowych do liku excel.")
-        ile = int(input("Podaj mi liczbę potrzebnych danych: "))
+        ile = input("Podaj mi liczbę potrzebnych danych: ")
         while True:
-            if ile is not int:
-                ile = int(input("Liczna musi być całkowita: "))
+            if type(ile) == int:
                 print("Wybierz teraz jakie imiona i nazwiska potrzebujesz")
                 plec = input("Męskie - m, Damskie - d, Mieszane - mix: ")
-                nazwa_pliku = input("Dobrze, podaj mi teraz nazwę pliku pod którą mam zapisać dane: ")
-                nazwa_pliku += ".xlsx"
-                self.dane_osobowe(ile, plec, nazwa_pliku)
+                if plec.lower() in ["m","d","mix"]:
+                    nazwa_pliku = input("Dobrze, podaj mi teraz nazwę pliku pod którą mam zapisać dane: ")
+                    if not nazwa_pliku.endswith(".xlsx"):
+                        nazwa_pliku += ".xlsx"
+                    self.dane_osobowe(ile, plec, nazwa_pliku)
+
+                else:
+                    plec = input("Nie odpowiedni wybór m - d - mix: ")
                 break
             else:
-                ile = int(input("Liczna musi być całkowita: "))
+                ile = input("Liczna musi być całkowita: ")
 pass
 
 
