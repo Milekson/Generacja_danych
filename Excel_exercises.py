@@ -46,8 +46,18 @@ class generatino_data_to_excel:
         elif plec.lower() == "d":
             imiona = random.choices(self.damskie,k=ile)
             nazwiska = random.choices(self.nazwiska_d, k=ile)
-        else:
-            raise ValueError ("Płeć musi być m lub d")
+        elif plec.lower() == "mix":
+            imiona = []
+            nazwiska = []
+            for i in range(ile):
+                case = random.choice(["m","d"])
+                if case == "m":
+                    imiona.append(random.choice(self.meskie))
+                    nazwiska.append(random.choice(self.nazwiska_m))
+                elif case == "d":
+                    imiona.append(random.choice(self.damskie))
+                    nazwiska.append(random.choice(self.nazwiska_d))
+
 
         wylosowane_miasta = random.choices(self.miasta, k=ile)
         #print(wylosowane_miasta)
@@ -83,7 +93,8 @@ class generatino_data_to_excel:
         :return: plik .xlsx
         """
         print("Witam w programie do generacji danych osobowych do liku excel.")
-        ile = input("Podaj mi liczbę potrzebnych danych: ")
+        ile = int(input("Podaj mi liczbę potrzebnych danych: "))
+        print(type(ile))
         while True:
             if type(ile) == int:
                 print("Wybierz teraz jakie imiona i nazwiska potrzebujesz")
@@ -97,8 +108,8 @@ class generatino_data_to_excel:
                 else:
                     plec = input("Nie odpowiedni wybór m - d - mix: ")
                 break
-            else:
-                ile = input("Liczna musi być całkowita: ")
+            # else:
+                # ile = input("Liczna musi być całkowita: ")
 pass
 
 
