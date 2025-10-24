@@ -31,6 +31,13 @@ class generatino_data_to_excel:
         except Exception as e:
             print(f"Błąd odczytu pliku:{e}")
             return None
+    def pensja_roczna(self,ile):
+        Generation = [element * 12
+                      for element in range(10000)
+                      if element >= 3000
+                      if element % 100 == 0]
+        pensja =random.choices(Generation,k=ile)
+        return pensja
     def dane_osobowe(self,ile,plec,nazwa_pliku):
         """
         Metoda losuje imiona i nazwiska z pliku źródłowego i zapisuje pliki w słowniku.
@@ -60,17 +67,18 @@ class generatino_data_to_excel:
 
 
         wylosowane_miasta = random.choices(self.miasta, k=ile)
+        pensja = self.pensja_roczna(ile)
         #print(wylosowane_miasta)
 
         wynik = {
             'Imiona':imiona,
             'Nazwiska': nazwiska,
-            'Miasto': wylosowane_miasta
+            'Miasto': wylosowane_miasta,
+            'Pensja roczna': pensja
         }
         df = pd.DataFrame(wynik)
         df.to_excel(nazwa_pliku, index = False,sheet_name = "Dane")
         return self
-
     def zapis_testowy_txt(self):
         """
         Metoda do sprawdzania pobieranych danych do metod zawartych w klasie.
