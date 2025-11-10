@@ -1,6 +1,7 @@
 from tkinter.ttk import Label
-
+import Excel_exercises
 import customtkinter as ctk
+
 
 
 class Main_Frame(ctk.CTkFrame):
@@ -46,13 +47,13 @@ class Secend_Frame(ctk.CTkFrame):
         )
         self.How_Many_Lable.pack(pady=(2,2))
         """+++++++++++ How_Many_Entry ++++++++++++++"""
-        self.How_Many_Lable = ctk.CTkEntry(
+        self.How_Many_Entry = ctk.CTkEntry(
             self,
             placeholder_text="Podaj liczbę",
             font=("Ariel",12),
             width=100
         )
-        self.How_Many_Lable.pack(pady=(2,2))
+        self.How_Many_Entry.pack(pady=(2,2))
         """+++++ Name_Of_file_lable ++++++++++"""
         self.Name_Of_File_Lable = ctk.CTkLabel(
             self,
@@ -74,11 +75,35 @@ class Secend_Frame(ctk.CTkFrame):
             width= 80,
             text = "Generuj",
             font=("Ariel",12),
+            command=self.Button_event
         )
         self.Accept_button.pack(pady=(15,2))
 
-    def Gender_ComboBox_get(self):
-        return self.Gender_ComboBox.get()
+
+
+    def Button_event(self):
+        self.selected_gender = self.Gender_ComboBox.get()
+        if self.selected_gender == "Męskie":
+            print(type(self.selected_gender))
+            self.selected_gender="m"
+            print(type(self.selected_gender))
+        elif self.selected_gender =="Damskie":
+            self.selected_gender="d"
+        elif self.selected_gender == "Mieszane":
+            self.selected_gender="mix"
+        elif self.selected_gender == "Wybierz":
+            print("Nie wybrałeś, dane będą mieszane")
+            self.selected_gender="mix"
+        how_many = int(self.How_Many_Entry.get())
+
+        Name_File=self.Name_Of_File_Entry.get()
+
+        Generation = Excel_exercises.generatino_data_to_excel()
+
+        Generation.dane_osobowe(how_many,self.selected_gender,Name_File)
+
+        # print(f"Płeć {selected_gender}, Liczba: {how_many}, Nazwa pliku: {Name_File}")
+
 
 
 
@@ -99,20 +124,6 @@ class App(ctk.CTk):
         y = (self.winfo_screenheight() // 2) - (height // 2)
         self.geometry(f"{width}x{height}+{x}+{y}")
 
-    # def secendert_Frame(self):
-    #
-    #
-    #
-    #
-    #
-    #     secendery_Frame.pack(expand=True,pady=10,padx=10)
-    #     """++++++++++++++++++++++++++ Lable_choise +++++++++++++++++++++++++"""
-    #     choise_lable = ctk.CTkLabel(
-    #         secendery_Frame,
-    #         text = "Wybierz płeć zbioru danych",
-    #         font= ("Ariel",15,"bold")
-    #     )
-    #     choise_lable.pack(pady=(0,30))
 
 
 
