@@ -19,7 +19,6 @@ class generatino_data_to_excel:
 
     def __init__(self):
         self.wczytaj_imiona()
-        self.Menu()
     def wczytaj_imiona(self):
         try:
             df = pd.read_excel(self.sciezka)
@@ -47,6 +46,7 @@ class generatino_data_to_excel:
         :param plec: 'm' - męskie lub 'd' - damksie
         :return: zwrócenie Slownika z listami wylosowanych imion z nazwkisami
         """
+        if not nazwa_pliku.endswith(".xlsx"): nazwa_pliku += '.xlsx'
         if plec.lower() == "m":
             imiona = random.choices(self.meskie,k=ile)
             nazwiska = random.choices(self.nazwiska_m, k=ile)
@@ -78,7 +78,6 @@ class generatino_data_to_excel:
         }
         df = pd.DataFrame(wynik)
         df.to_excel(nazwa_pliku, index = False,sheet_name = "Dane")
-        return self
     def zapis_testowy_txt(self):
         """
         Metoda do sprawdzania pobieranych danych do metod zawartych w klasie.
@@ -92,32 +91,32 @@ class generatino_data_to_excel:
 
         df.to_csv(nazwa_pliku,sep = separator, index=False, encoding='utf-8')
 
-    def Menu(self):
-        """
-        Obsługa programu. Menu wyboru rodzaju danych. Do wyboru są Dane męskie, żeńskie lub mieszane określone znakami
-        "m" dla mężczyzn, "d" dla kobiet, "mix" dla mieszanych. Ilość potrzebych danych jest określona w liczbach całkowitch
-        Nazwa pliku jest wybierana przez użytkownika programu. Po wprowadzaniu danych na koniec jest wykonywana metoda
-        dane osobowe.
-        :return: plik .xlsx
-        """
-        print("Witam w programie do generacji danych osobowych do liku excel.")
-        ile = int(input("Podaj mi liczbę potrzebnych danych: "))
-        print(type(ile))
-        while True:
-            if type(ile) == int:
-                print("Wybierz teraz jakie imiona i nazwiska potrzebujesz")
-                plec = input("Męskie - m, Damskie - d, Mieszane - mix: ")
-                if plec.lower() in ["m","d","mix"]:
-                    nazwa_pliku = input("Dobrze, podaj mi teraz nazwę pliku pod którą mam zapisać dane: ")
-                    if not nazwa_pliku.endswith(".xlsx"):
-                        nazwa_pliku += ".xlsx"
-                    self.dane_osobowe(ile, plec, nazwa_pliku)
-
-                else:
-                    plec = input("Nie odpowiedni wybór m - d - mix: ")
-                break
-            # else:
-                # ile = input("Liczna musi być całkowita: ")
+    # def Menu(self):
+    #     """
+    #     Obsługa programu. Menu wyboru rodzaju danych. Do wyboru są Dane męskie, żeńskie lub mieszane określone znakami
+    #     "m" dla mężczyzn, "d" dla kobiet, "mix" dla mieszanych. Ilość potrzebych danych jest określona w liczbach całkowitch
+    #     Nazwa pliku jest wybierana przez użytkownika programu. Po wprowadzaniu danych na koniec jest wykonywana metoda
+    #     dane osobowe.
+    #     :return: plik .xlsx
+    #     """
+    #     print("Witam w programie do generacji danych osobowych do liku excel.")
+    #     ile = int(input("Podaj mi liczbę potrzebnych danych: "))
+    #     print(type(ile))
+    #     while True:
+    #         if type(ile) == int:
+    #             print("Wybierz teraz jakie imiona i nazwiska potrzebujesz")
+    #             plec = input("Męskie - m, Damskie - d, Mieszane - mix: ")
+    #             if plec.lower() in ["m","d","mix"]:
+    #                 nazwa_pliku = input("Dobrze, podaj mi teraz nazwę pliku pod którą mam zapisać dane: ")
+    #                 if not nazwa_pliku.endswith(".xlsx"):
+    #                     nazwa_pliku += ".xlsx"
+    #                 self.dane_osobowe(ile, plec, nazwa_pliku)
+    #
+    #             else:
+    #                 plec = input("Nie odpowiedni wybór m - d - mix: ")
+    #             break
+    #         # else:
+    #             # ile = input("Liczna musi być całkowita: ")
 pass
 
 
