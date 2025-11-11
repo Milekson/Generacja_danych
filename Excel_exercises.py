@@ -1,4 +1,5 @@
 import functools
+import os
 import random
 import time
 from operator import ifloordiv
@@ -19,9 +20,35 @@ class generatino_data_to_excel:
 
     def __init__(self):
         self.wczytaj_imiona()
+    # def wczytaj_imiona(self):
+    #     try:
+    #         df = pd.read_excel(
+    #             self.sciezka,
+    #             engine='openpyxl',
+    #             dtype='string',
+    #             na_filter=True,
+    #             usecols=['meskie','damskie','nazwiska_m','nazwiska_d','miasto'])
+    #
+    #         self.meskie = df["meskie"].dropna().values
+    #         self.damskie = df["damskie"].dropna().values
+    #         self.nazwiska_m = df["nazwiska_m"].dropna().values
+    #         self.nazwiska_d = df["nazwiska_d"].dropna().values
+    #         self.miasta = df["miasto"].dropna().values
+    #     except Exception as e:
+    #         print(f"Błąd odczytu pliku:{e}")
+    #         return None
     def wczytaj_imiona(self):
         try:
-            df = pd.read_excel(self.sciezka)
+            # Sprawdź czy istnieje szybsza wersja CSV
+            csv_sciezka = self.sciezka.replace('.xlsx', '.csv').replace('.xls', '.csv')
+
+            if os.path.exists(csv_sciezka):
+                df = pd.read_csv(csv_sciezka, dtype='string')
+            else:
+                df = pd.read_excel(self.sciezka, dtype='string')
+                # Zapisz jako CSV dla przyszłych odczytów
+                df.to_csv(csv_sciezka, index=False)
+
             self.meskie = df["meskie"].dropna().values
             self.damskie = df["damskie"].dropna().values
             self.nazwiska_m = df["nazwiska_m"].dropna().values
