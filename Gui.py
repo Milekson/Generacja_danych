@@ -102,7 +102,7 @@ class Secend_Frame(ctk.CTkFrame):
 
         Generation.dane_osobowe(how_many,self.selected_gender,Name_File)
 
-        # print(f"Płeć {selected_gender}, Liczba: {how_many}, Nazwa pliku: {Name_File}")
+        
 
 
 
