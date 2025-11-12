@@ -4,6 +4,7 @@ import customtkinter as ctk
 
 
 
+
 class Main_Frame(ctk.CTkFrame):
     def __init__(self,master):
         super().__init__(master)
@@ -94,18 +95,44 @@ class Secend_Frame(ctk.CTkFrame):
         elif self.selected_gender == "Wybierz":
             print("Nie wybrałeś, dane będą mieszane")
             self.selected_gender="mix"
-        how_many = int(self.How_Many_Entry.get())
+        try:
+            self.how_many = int(self.How_Many_Entry.get())
+        except (ValueError,TypeError):
+            if not str(self.how_many).isdigit():
+                dialog = ctk.CTkInputDialog(text="Błędne dane podaj liczbę całkowitą", title="Error")
+                input = dialog.get_input()
+                if input and input.isdigit():
+                    self.how_many = int(input)
+                else:
+                    print("wartość domyślna to 100")
+                    self.how_many = 100
 
         Name_File=self.Name_Of_File_Entry.get()
 
-        Generation = Excel_exercises.generatino_data_to_excel()
+        try:
+            Generation = Excel_exercises.generatino_data_to_excel()
+            Generation.dane_osobowe(self.how_many,self.selected_gender,Name_File)
+        except Exception as e:
+            print("Wystąpił jakiś błąd skontaktuj się z developerem")
 
-        Generation.dane_osobowe(how_many,self.selected_gender,Name_File)
+        self.clean_multi_entries(self.How_Many_Entry,self.Name_Of_File_Entry)
 
-        
+    def clean_multi_entries(self,*entries):
+        for entry in entries:
+            entry.delete(0,'end')
 
+class Done_Windows(ctk.CTkToplevel):
+    def __init__(self,master,nazwa_pliku):
+        super().__init__(self,master)
+        self.nazwa_pliku = nazwa_pliku
+        self.geometry('100x100')
 
-
+        self.Lable = ctk.CTkLabel(
+            self,
+            text=(f"Udało się plik został zapisany pod nazwą {nazwa_pliku}"),
+            font=('Ariel',20,'bold')
+        )
+        self.Lable.pack(pady=(10,10))
 
 class App(ctk.CTk):
     def __init__(self):
