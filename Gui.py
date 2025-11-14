@@ -80,6 +80,13 @@ class Secend_Frame(ctk.CTkFrame):
         )
         self.Accept_button.pack(pady=(15,2))
 
+        self.Done_Lable = ctk.CTkLabel(
+            self,
+            text = "",
+            font = ("Ariel",15,"bold")
+        )
+        self.Done_Lable.pack(pady=(15,2))
+
 
 
     def Button_event(self):
@@ -112,27 +119,15 @@ class Secend_Frame(ctk.CTkFrame):
         try:
             Generation = Excel_exercises.generatino_data_to_excel()
             Generation.dane_osobowe(self.how_many,self.selected_gender,Name_File)
+            self.Done_Lable.configure(text=f"Udało się zapisać plik pod nazwą {Name_File}.xlsx ")
         except Exception as e:
-            print("Wystąpił jakiś błąd skontaktuj się z developerem")
+            print(f"Wystąpił jakiś błąd skontaktuj się z developerem.... {e}")
 
         self.clean_multi_entries(self.How_Many_Entry,self.Name_Of_File_Entry)
 
     def clean_multi_entries(self,*entries):
         for entry in entries:
             entry.delete(0,'end')
-
-class Done_Windows(ctk.CTkToplevel):
-    def __init__(self,master,nazwa_pliku):
-        super().__init__(self,master)
-        self.nazwa_pliku = nazwa_pliku
-        self.geometry('100x100')
-
-        self.Lable = ctk.CTkLabel(
-            self,
-            text=(f"Udało się plik został zapisany pod nazwą {nazwa_pliku}"),
-            font=('Ariel',20,'bold')
-        )
-        self.Lable.pack(pady=(10,10))
 
 class App(ctk.CTk):
     def __init__(self):
